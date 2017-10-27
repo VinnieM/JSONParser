@@ -1,0 +1,5 @@
+/bin/
+.classpath
+.project
+**/.idea/workspace.xml
+**/.idea/tasks.xml
