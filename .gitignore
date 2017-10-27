@@ -1,5 +1,5 @@
 /bin/
 .classpath
+/out
 .project
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+**/.idea
