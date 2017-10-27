@@ -1,0 +1,1 @@
+DeviceDetails.DeviceName,DeviceDetails.Info.IPDetails,DeviceDetails.Info.IsPhone,perms.0.visible,perms.10.selectable,perms.10.testArray.1.wow,cartId
