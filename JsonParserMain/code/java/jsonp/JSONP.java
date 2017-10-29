@@ -28,26 +28,26 @@ public class JSONP {
       return currentObject;
     } catch (JSONException jsonException) {
       jsonException.printStackTrace();
+      return jsonException;
     }
-    return null;
   }
 
   private Object getFromJSONObject(Object inputObj, String key) {
     try {
       return ((JSONObject) inputObj).get(key);
-    } catch (NullPointerException | JSONException e) {
-      e.printStackTrace();
+    } catch (NullPointerException | JSONException exception) {
+      exception.printStackTrace();
+      return exception;
     }
-    return null;
   }
 
   private Object getFromJSONArray(Object inputObj, String key) {
     try {
       int index = Integer.parseInt(key);
       return ((JSONArray) inputObj).get(index);
-    } catch (NullPointerException | JSONException e) {
-      e.printStackTrace();
+    } catch (NullPointerException | JSONException exception) {
+      exception.printStackTrace();
+      return exception;
     }
-    return null;
   }
 }
