@@ -39,3 +39,26 @@ As per the current implementation the getNodeValue(String obj1, String obj2) wou
 		}
 	}
 }
+
+Building the code
+-----------------
+
+Currently the code is not available on Maven, so the only way to use the utility is to build the project. Ant is the build tool used. Download the project and make sure you have Apache Ant installed. Else it can be downloaded from http://ant.apache.org/
+
+Navigate to the build folder via terminal or command prompt and then run the command "ant". The project will get built and the jar will be generated in the release folder.
+
+Example
+-------
+
+The below example shows how to use the utility.
+
+public ApplicaitonMain(){
+	try{
+		String testJSON = new String(Files.readAllBytes(Paths.get("TestJson.txt")));
+		JSONP parser = new JSONP();
+		Object object = parser.getNodeValue(new JSONObject(testJSON), "perms.0.testArray.0.TestKey4");
+		System.out.println("Output "+object.toString());
+	} catch (IOException | JSONException exceptions){
+		exceptions.printStackTrace();
+	}
+}
