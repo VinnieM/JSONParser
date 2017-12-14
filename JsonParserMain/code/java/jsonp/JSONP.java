@@ -6,9 +6,8 @@ import org.json.JSONObject;
 
 public class JSONP {
 
-  public Object getNodeValue(String inputJson, String objectKey) {
-    try {
-      Object currentObject = new JSONObject(inputJson);
+  public Object getNodeValue(JSONObject inputJson, String objectKey) {
+      Object currentObject = inputJson;
       String[] fields = objectKey.split(Constants.FIELD_DELIMITER);
       for (String eachField : fields) {
         if (eachField.contains("\n")) {
@@ -26,10 +25,6 @@ public class JSONP {
         }
       }
       return currentObject;
-    } catch (JSONException jsonException) {
-      jsonException.printStackTrace();
-      return jsonException;
-    }
   }
 
   private Object getFromJSONObject(Object inputObj, String key) {
