@@ -1,7 +1,5 @@
 /bin/
 .classpath
-/out/*
-/docs/*
-/release/*
+release/
 .project
 **/.idea
