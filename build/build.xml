@@ -3,7 +3,7 @@
 
 	<target name="init">
 		<echo>+---------------------------------------------------------+</echo>
-		<echo>+    Project JP Initiation           											+</echo>
+		<echo>+    Project JSON Parser Initiation           						+</echo>
 		<echo>+---------------------------------------------------------+</echo>
 		<property name="prjJsonParser_base.home" value="../../"/>
 		<property name="prjJsonParser_base.lib" value="../../lib"/>
@@ -11,15 +11,12 @@
 		<!-- The destination directory for the build -->
 		<property name="jsonParser.home" value="${prjJsonParser_base.home}/JSONParser"/>
 		<property name="jsonParser.build" value="${jsonParser.home}/build"/>
-		<property file="${helloDuke.build}/build.properties"/>
 		<property name="jsonParser.src" value="${jsonParser.home}/JsonParserMain"/>
 		<property name="jsonParser.test" value="${jsonParser.home}/JsonParserTest"/>
 		<property name="jsonParser.lib" value="${jsonParser.home}/lib"/>
 		<property name="jsonParser.etc" value="${jsonParser.home}/etc"/>
-		<property name="jsonParser.javadocs" value="${jsonParser.home}/docs"/>
 		<property name="jsonParser.classes" value="${jsonParser.build}/classes"/>
 		<property name="jsonParser.release" value="${jsonParser.home}/release"/>
-		<property name="jsonParser.Test" value="${jsonParser.home}/TestReports"/>
 
 		<!-- Setting the TimeStamp -->
 		<tstamp>
@@ -62,16 +59,11 @@
 		<echo>+           Packaging JSON Parser Service layer Service             		+</echo>
 		<echo>+-----------------------------------------------------------------------+</echo>
 		<mkdir dir="${jsonParser.release}"/>
-		<jar jarfile="${jsonParser.release}/jp.jar" basedir="${jsonParser.classes}">
+		<jar jarfile="${jsonParser.release}/${timestamp}/jsonParser.jar" basedir="${jsonParser.classes}">
 			<manifest>
 				<attribute name="Main-Class" value="code.java.jsonp.ApplicationMain" />
 			</manifest>
 		</jar>
-		<copy todir="${jsonParser.release}">
-			<fileset dir="${jsonParser.etc}">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>
 	</target>
 
 	<target name="jar" depends="compile, jar_nocompile"/>
@@ -79,83 +71,13 @@
 		<echo>+---------------------------------------------------------------------------------+</echo>
 		<echo>+            Releasing JSON Parser Service layer Service Package	                +</echo>
 		<echo>+---------------------------------------------------------------------------------+</echo>
-		<copy todir="${prjJsonParser_base.home}/JSONParser/release/${timestamp}/jsonParser">
-			<fileset dir="${jsonParser.release}">
-				<include name="**/*.*"/>
-			</fileset>
-		</copy>
-		<copy todir="${prjJsonParser_base.home}/JSONParser/release/${timestamp}/jsonParser">
+		<copy todir="${jsonParser.release}">
 			<fileset dir="${jsonParser.release}">
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
 	</target>
-
-<!-- ================ TEST: Compile Unit Tests ========================== -->
 	<target name="release" depends="jar, release_nojar"/>
-	<target name="docs_nocompile" depends="init">
-		<echo>+----------------------------------------------------------------------------------+</echo>
-		<echo>+        JSON Parser Service layer Service Documentation Generation            		 +</echo>
-		<echo>+----------------------------------------------------------------------------------+</echo>
-		<mkdir dir="${jsonParser.javadocs}"/>
-		<javadoc
-				packagenames="code.*"
-				destdir="${jsonParser.javadocs}"
-				author="true"
-				version="true"
-				use="true"
-				windowtitle="JSON Parser Service Layer">
-				<doctitle><![CDATA[= JSON Parser Service layer Service Classes =]]></doctitle>
-			<sourcepath>
-				<pathelement path="${jsonParser.src}"/>
-			</sourcepath>
-		</javadoc>
-	</target>
-	<target name="docs" depends="compile, docs_nocompile"/>
-
-	<!-- ================ TEST: Compile Unit Tests ========================== -->
-	<target name="compile-tests-nojar" depends="init">
-		<echo>+----------------------------------------------------------------------------------------+</echo>
-		<echo>+         Compile JSON Parser Service Management Service Unit Test Cases            	   +</echo>
-		<echo>+----------------------------------------------------------------------------------------+</echo>
-
-		<!-- Construct unit test classpath -->
-		<path id="prjjsonParsertest.classpath">
-			<path refid="jsonParser.classpath"/>
-			<pathelement location="${prjJsonParser_base.lib}/JUnit/JUnit.jar"/>
-			<pathelement location="${prjJsonParser_base.lib}/JUnit/hamcrest-core-1.3.jar"/>
-			<fileset dir="${jsonParser.release}">
-				<include name="**/*.jar"/>
-			</fileset>
-			<pathelement location="${jsonParser.home}/TestReports"/>
-		</path>
-		<mkdir dir="${jsonParser.home}/TestReports"/>
-
-		<javac  srcdir="${jsonParser.test}"
-			destdir="${jsonParser.Test}"
-			includes="code/**" debug="true">
-			<classpath refid="prjjsonParsertest.classpath" />
-		</javac>
-	</target>
-
-	<!-- ==================== TEST: Execute Unit Tests ====================== -->
-	<target name="run-tests-nojar" depends="compile-tests-nojar">
-		<echo>+------------------------------------------------------------------------------------------+</echo>
-		<echo>+          Execute Context Expense Service Management Service Unit Test Cases              +</echo>
-		<echo>+------------------------------------------------------------------------------------------+</echo>
-
-		<mkdir dir="${prjJsonParser_base.home}/JSONParser/TestReports"/>
-		<junit printsummary="yes" haltonfailure="no">
-			<classpath refid="prjjsonParsertest.classpath"/>
-			<formatter type="plain"/>
-			<formatter type="xml"/>
-			<batchtest fork="no" todir="${prjJsonParser_base.home}/JSONParser/TestReports">
-				<fileset dir="${jsonParser.home}/TestReports">
-					<include name="**/**.class"/>
-				</fileset>
-			</batchtest>
-		</junit>
-	</target>
 
 	<target name="clean" depends="init">
 		<echo>+------------------------------------------------------------------------------------------+</echo>
@@ -179,7 +101,7 @@
 		</delete>
 	</target>
 
-	<target name="all" depends="release,clean,docs_nocompile,run-tests-nojar">
+	<target name="all" depends="release,clean">
 		<echo>+-------------------------------------------------------------------------+</echo>
 		<echo>+          JSONP layer Service Build - Done             									+</echo>
 		<echo>+-------------------------------------------------------------------------+</echo>
