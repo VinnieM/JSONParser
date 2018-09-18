@@ -11,7 +11,7 @@ For the following JSON Structure, if you want to find the value of TestKey4, whi
 getNodeValue(JSONStructure, perms.0.testArray.0.TestKey4);
 
 As per the current implementation the getNodeValue(String obj1, String obj2) would return an Java Object (java.lang.object). The advantage of returning as an Object is that whatever type of value the key holds, the user could get that without anticipating the return value.
-
+```
 {
 	"perms": [{
 		"changeDefault": "Yes",
@@ -39,7 +39,7 @@ As per the current implementation the getNodeValue(String obj1, String obj2) wou
 		}
 	}
 }
-
+```
 Building the code
 -----------------
 
@@ -51,7 +51,7 @@ Example
 -------
 
 The below example shows how to use the utility.
-
+```
 public ApplicaitonMain(){
 	try{
 		String testJSON = new String(Files.readAllBytes(Paths.get("TestJson.txt")));
@@ -62,3 +62,4 @@ public ApplicaitonMain(){
 		exceptions.printStackTrace();
 	}
 }
+```
