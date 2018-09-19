@@ -1,34 +1,36 @@
 package code.java.jsonp.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import code.java.jsonp.Constants;
 import code.java.jsonp.JSONP;
 import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 
 public class JSONPTest {
 
   private JSONP jsonP = new JSONP();
+  private JSONObject JSON_Structure = getInputTestStrucure();
 
   /**
-   * This method loads the test data
+   * This method loads the JSON
    *
    * @return A String with the test data
    */
-  private String getInputTestStrucure() {
-    String inputJson = "";
-    if (inputJson.length() == 0) {
-      try {
-        inputJson = new String(Files.readAllBytes(Paths.get("etc/TestData/Json.json")));
-      } catch (IOException ioException) {
-        ioException.printStackTrace();
-      }
+  private JSONObject getInputTestStrucure() {
+    String jsonObject;
+    try {
+      jsonObject = new String(Files.readAllBytes(Paths.get("etc/TestData/Json.json")));
+      return new JSONObject(jsonObject);
+    } catch (IOException | JSONException ioException) {
+      throw new FileSystemNotFoundException(
+          "Unable to find the JSON File in etc/TestData/Json.json!!!" + "\n" + ioException);
     }
-    return inputJson;
   }
 
   /**
@@ -39,7 +41,7 @@ public class JSONPTest {
       String nodeToSearch = new String(
           Files.readAllBytes(Paths.get("etc/TestData/NodesToCheck.txt")));
       String[] nodeArrayList = nodeToSearch.split(Constants.NODE_DELIMITER);
-      return nodeToSearch = nodeArrayList[indexNumber];
+      return nodeArrayList[indexNumber];
     } catch (IOException ioException) {
       ioException.printStackTrace();
       return ioException;
@@ -47,95 +49,46 @@ public class JSONPTest {
   }
 
   /**
-   * This function checks if in input is an Object of the Exception Class.
-   *
-   * @param val Any Java object.
-   * @return Return true, if the input parameter is an exception object, else false.
+   * This function asserts if the value of the cartId in the JSON Structure.
    */
-  private boolean isException(Object val) {
-    if (val instanceof Exception) {
-      return true;
-    }
-    return false;
-  }
-
   @Test
   public void checkJsonObject() {
-    String input = getInputTestStrucure();
     Object nodeIndex = getNodesToCheck(6);
-    if (!isException(nodeIndex)) {
-      String valToCheck = nodeIndex.toString();
-      Object val = jsonP.getNodeValue(input, valToCheck);
-      if (valToCheck.contains("\n")) {
-        valToCheck = valToCheck.substring(0, valToCheck.length() - 1);
-      }
-      assertEquals("8ladf51ds65ga6", val.toString());
-    } else {
-      fail("An exception has occurred " + nodeIndex.toString());
-    }
+    String valToCheck = nodeIndex.toString().substring(0, nodeIndex.toString().length() - 2);
+    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    assertEquals("8ladf51ds65ga6", val.toString());
+
   }
 
   @Test
   public void checkJsonObject1() {
-    String input = getInputTestStrucure();
     Object nodeIndex = getNodesToCheck(0);
-    if (!isException(nodeIndex)) {
-      String valToCheck = nodeIndex.toString();
-      Object val = jsonP.getNodeValue(input, valToCheck);
-      if (valToCheck.contains("\n")) {
-        valToCheck = valToCheck.substring(0, valToCheck.length() - 1);
-      }
-      assertEquals("MotoXPlay", val.toString());
-    } else {
-      fail("An Exception occurred " + nodeIndex.toString());
-    }
+    String valToCheck = nodeIndex.toString();
+    Object val = jsonP.getNodeValue(JSON_Structure, valToCheck);
+    assertEquals("MotoXPlay", val.toString());
   }
 
   @Test
   public void checkJsonObject2() {
-    String input = getInputTestStrucure();
     Object nodeIndex = getNodesToCheck(1);
-    if (!isException(nodeIndex)) {
-      String valToCheck = nodeIndex.toString();
-      Object val = jsonP.getNodeValue(input, valToCheck);
-      if (valToCheck.contains("\n")) {
-        valToCheck = valToCheck.substring(0, valToCheck.length() - 1);
-      }
-      assertEquals("192.168.3.155", val.toString());
-    } else {
-      fail("An Exception occurred " + nodeIndex.toString());
-    }
+    String valToCheck = nodeIndex.toString();
+    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    assertEquals("192.168.3.155", val.toString());
   }
 
   @Test
   public void checkJsonArray() {
-    String input = getInputTestStrucure();
     Object nodeIndex = getNodesToCheck(3);
-    if (!isException(nodeIndex)) {
-      String valToCheck = nodeIndex.toString();
-      Object val = jsonP.getNodeValue(input, valToCheck);
-      if (valToCheck.contains("\n")) {
-        valToCheck = valToCheck.substring(0, valToCheck.length() - 1);
-      }
-      assertEquals(true, val);
-    } else {
-      fail("An exception has occurred " + nodeIndex);
-    }
+    String valToCheck = nodeIndex.toString();
+    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    assertEquals(true, val);
   }
 
   @Test
   public void checkJsonArray1() {
-    String input = getInputTestStrucure();
     Object nodeIndex = getNodesToCheck(5);
-    if (!isException(nodeIndex)) {
-      String valToCheck = nodeIndex.toString();
-      Object val = jsonP.getNodeValue(input, valToCheck);
-      if (valToCheck.contains("\n")) {
-        valToCheck = valToCheck.substring(0, valToCheck.length() - 1);
-      }
-      assertEquals("Val8", val.toString());
-    } else {
-      fail("An exception has occurred " + nodeIndex);
-    }
+    String valToCheck = nodeIndex.toString();
+    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    assertEquals("Val8", val.toString());
   }
 }
