@@ -1,9 +1,7 @@
-package code.java.jsonp.test;
+package code.java.jsonp;
 
 import static org.junit.Assert.assertEquals;
 
-import code.java.jsonp.Constants;
-import code.java.jsonp.JSONP;
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
@@ -12,9 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-public class JSONPTest {
+public class JsonPTest {
 
-  private JSONP jsonP = new JSONP();
+  private JsonP jsonP = new JsonP();
   private JSONObject JSON_Structure = getInputTestStrucure();
 
   /**
@@ -25,11 +23,11 @@ public class JSONPTest {
   private JSONObject getInputTestStrucure() {
     String jsonObject;
     try {
-      jsonObject = new String(Files.readAllBytes(Paths.get("etc/TestData/Json.json")));
+      jsonObject = new String(Files.readAllBytes(Paths.get("src/test/resources/Json.json")));
       return new JSONObject(jsonObject);
     } catch (IOException | JSONException ioException) {
       throw new FileSystemNotFoundException(
-          "Unable to find the JSON File in etc/TestData/Json.json!!!" + "\n" + ioException);
+          "Unable to find the JSON File in src/test/resources/Json.json!!!" + "\n" + ioException);
     }
   }
 
@@ -39,7 +37,7 @@ public class JSONPTest {
   private Object getNodesToCheck(int indexNumber) {
     try {
       String nodeToSearch = new String(
-          Files.readAllBytes(Paths.get("etc/TestData/NodesToCheck.txt")));
+          Files.readAllBytes(Paths.get("src/test/resources/NodesToCheck.txt")));
       String[] nodeArrayList = nodeToSearch.split(Constants.NODE_DELIMITER);
       return nodeArrayList[indexNumber];
     } catch (IOException ioException) {
@@ -54,7 +52,7 @@ public class JSONPTest {
   @Test
   public void checkJsonObject() {
     Object nodeIndex = getNodesToCheck(6);
-    String valToCheck = nodeIndex.toString().substring(0, nodeIndex.toString().length() - 2);
+    String valToCheck = nodeIndex.toString().substring(0, nodeIndex.toString().length() - 1);
     Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
     assertEquals("8ladf51ds65ga6", val.toString());
 
