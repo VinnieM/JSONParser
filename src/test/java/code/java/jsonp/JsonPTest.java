@@ -12,8 +12,8 @@ import org.junit.Test;
 
 public class JsonPTest {
 
-  private JsonP jsonP = new JsonP();
-  private JSONObject JSON_Structure = getInputTestStrucure();
+  private final JsonP jsonP = new JsonP();
+  private final JSONObject JSON_Structure = getInputTestStrucure();
 
   /**
    * This method loads the JSON
@@ -46,14 +46,11 @@ public class JsonPTest {
     }
   }
 
-  /**
-   * This function asserts if the value of the cartId in the JSON Structure.
-   */
   @Test
   public void checkJsonObject() {
     Object nodeIndex = getNodesToCheck(6);
     String valToCheck = nodeIndex.toString().substring(0, nodeIndex.toString().length() - 1);
-    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    Object val = jsonP.getNodeValue(JSON_Structure, valToCheck);
     assertEquals("8ladf51ds65ga6", val.toString());
 
   }
@@ -70,7 +67,7 @@ public class JsonPTest {
   public void checkJsonObject2() {
     Object nodeIndex = getNodesToCheck(1);
     String valToCheck = nodeIndex.toString();
-    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    Object val = jsonP.getNodeValue(JSON_Structure, valToCheck);
     assertEquals("192.168.3.155", val.toString());
   }
 
@@ -78,7 +75,7 @@ public class JsonPTest {
   public void checkJsonArray() {
     Object nodeIndex = getNodesToCheck(3);
     String valToCheck = nodeIndex.toString();
-    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    Object val = jsonP.getNodeValue(JSON_Structure, valToCheck);
     assertEquals(true, val);
   }
 
@@ -86,7 +83,7 @@ public class JsonPTest {
   public void checkJsonArray1() {
     Object nodeIndex = getNodesToCheck(5);
     String valToCheck = nodeIndex.toString();
-    Object val = jsonP.getNodeValue(getInputTestStrucure(), valToCheck);
+    Object val = jsonP.getNodeValue(JSON_Structure, valToCheck);
     assertEquals("Val8", val.toString());
   }
 }
