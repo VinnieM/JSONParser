@@ -7,8 +7,11 @@ import org.json.JSONObject;
 public class JsonP {
 
 
+  public static final String NODE_DELIMITER = ",";
+  public static final String FIELD_DELIMITER = "\\.";
+
   /**
-   * This function get's the node value of the JSON Object/Array.
+   * This function gets the node value of the JSON Object/Array.
    *
    * @param inputJson The JSON Structure from which the value needs to be obtained
    * @param objectKey The key for which value is required
@@ -16,7 +19,7 @@ public class JsonP {
    */
   public Object getNodeValue(JSONObject inputJson, String objectKey) {
     Object currentObject = inputJson;
-    String[] fields = objectKey.split(Constants.FIELD_DELIMITER);
+    String[] fields = objectKey.split(FIELD_DELIMITER);
     for (String eachField : fields) {
       if (eachField.contains("\n")) {
         eachField = eachField.substring(0, eachField.length() - 1);
@@ -49,7 +52,7 @@ public class JsonP {
    */
   public JSONObject setNodeValue(JSONObject inputJson, String objectKey, String value) {
     Object currentObject = inputJson;
-    String[] fields = objectKey.split(Constants.FIELD_DELIMITER);
+    String[] fields = objectKey.split(FIELD_DELIMITER);
     for (int i = 0; i < fields.length; i++) {
       if (i == fields.length - 1) {
         if (JSONObject.class.isInstance(currentObject)) {

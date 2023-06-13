@@ -38,7 +38,7 @@ public class JsonPTest {
     try {
       String nodeToSearch = new String(
           Files.readAllBytes(Paths.get("src/test/resources/NodesToCheck.txt")));
-      String[] nodeArrayList = nodeToSearch.split(Constants.NODE_DELIMITER);
+      String[] nodeArrayList = nodeToSearch.split(JsonP.NODE_DELIMITER);
       return nodeArrayList[indexNumber];
     } catch (IOException ioException) {
       ioException.printStackTrace();
